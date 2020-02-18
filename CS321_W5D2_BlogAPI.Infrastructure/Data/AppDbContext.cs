@@ -7,7 +7,10 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Data
 {
     public class AppDbContext : IdentityDbContext
     {
-        // TODO: create Blogs, Posts, and Comments DbSets
+        // create Blogs, Posts, and Comments DbSets
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -16,7 +19,8 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // TODO: use Sqlite db
+            // use Sqlite db
+            optionsBuilder.UseSqlite("Data Source = ../CS321_W5D2_BlogAPI.Infrastructure/blog.db");
         }
     }
 }

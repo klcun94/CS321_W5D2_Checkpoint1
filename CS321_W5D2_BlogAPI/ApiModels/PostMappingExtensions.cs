@@ -16,11 +16,13 @@ namespace CS321_W5D2_BlogAPI.ApiModels
 				Title = post.Title,
 				Content = post.Content,
 				CommentsAllowed = post.CommentsAllowed,
-                BlogId = post.BlogId,
-                DatePublished = post.DatePublished,
-                // TODO: map blogName and authorName
+				BlogId = post.BlogId,
+				DatePublished = post.DatePublished,
+				// map blogName and authorName
+				BlogName = post.Blog != null ? post.Blog.Name : null,
+                AuthorName = post.Blog?.User != null ? post.Blog.User.FullName : null
 			};
-		}
+        }
 
 		public static Post ToDomainModel(this PostModel postModel)
 		{

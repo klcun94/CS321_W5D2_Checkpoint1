@@ -8,7 +8,7 @@ namespace CS321_W5D2_BlogAPI.Core.Services
     {
         private readonly IBlogRepository _blogRepository;
 
-        // TODO: inject IBlogRepository
+        // inject IBlogRepository
         public BlogService(IBlogRepository blogRepository)
         {
             _blogRepository = blogRepository;

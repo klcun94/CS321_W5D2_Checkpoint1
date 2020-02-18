@@ -15,7 +15,8 @@ namespace CS321_W5D2_BlogAPI.ApiModels
                 Id = blog.Id,
                 Name = blog.Name,
                 Description = blog.Description,
-                // TODO: map user's FullName to authorName
+                // map user's FullName to authorName
+                AuthorName = blog.User != null ? blog.User.FullName : null
             };
         }
 

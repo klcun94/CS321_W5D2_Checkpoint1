@@ -9,45 +9,84 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Data
 {
     public class PostRepository : IPostRepository
     {
+        private readonly AppDbContext _dbContext;
         public PostRepository(AppDbContext dbContext) 
-        {  
+        {
+            _dbContext = dbContext;
         }
 
         public Post Get(int id)
         {
-            // TODO: Implement Get(id). Include related Blog and Blog.User
-            throw new NotImplementedException();
+        // Implement Get(id). Include related Blog and Blog.User
+        Post post = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+
+        if (post == null)
+            return null;
+
+        return _dbContext.Posts
+            .Include(p => p.Blog)
+                .ThenInclude(b => b.User)
+            .FirstOrDefault(p => p.Id == id);
         }
 
         public IEnumerable<Post> GetBlogPosts(int blogId)
         {
-            // TODO: Implement GetBlogPosts, return all posts for given blog id
-            // TODO: Include related Blog and AppUser
-            throw new NotImplementedException();
+        //  Implement GetBlogPosts, return all posts for given blog id
+        // Include related Blog and AppUser
+        return _dbContext.Posts
+            .Include(p => p.Blog)
+                .ThenInclude(b => b.User)
+            .Where(p => p.BlogId == blogId)
+            .ToList();
         }
 
         public Post Add(Post Post)
         {
-            // TODO: add Post
-            throw new NotImplementedException();
+        // add Post
+        Post newPost = _dbContext.Posts.FirstOrDefault(p => p.Id == Post.Id);
+
+        if (newPost != null)
+            return null;
+
+        _dbContext.Posts.Add(Post);
+        _dbContext.SaveChanges();
+
+        return Post;
         }
 
         public Post Update(Post Post)
         {
-            // TODO: update Post
-            throw new NotImplementedException();
+        // update Post
+        var existingPost = _dbContext.Posts.FirstOrDefault(p => p.Id == Post.Id);
+
+        if (existingPost == null)
+            return null;
+
+        _dbContext.Entry(existingPost)
+            .CurrentValues
+            .SetValues(Post);
+        _dbContext.Posts.Update(existingPost);
+        _dbContext.SaveChanges();
+
+        return existingPost;
         }
 
         public IEnumerable<Post> GetAll()
         {
-            // TODO: get all posts
-            throw new NotImplementedException();
+            // get all posts
+            return _dbContext.Posts
+                .Include(p => p.Blog)
+                    .ThenInclude(b => b.User)
+                .ToList();
         }
 
         public void Remove(int id)
         {
-            // TODO: remove Post
-            throw new NotImplementedException();
+        // remove Post
+        Post post = _dbContext.Posts.FirstOrDefault(p => p.Id == id);
+
+        _dbContext.Posts.Remove(post);
+        _dbContext.SaveChanges();
         }
 
     }

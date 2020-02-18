@@ -208,7 +208,9 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Migrations
                     Title = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
                     DatePublished = table.Column<DateTime>(nullable: false),
-                    PostId = table.Column<int>(nullable: false)
+                    PostId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    UserId1 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,6 +221,12 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Migrations
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -267,6 +275,11 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Migrations
                 name: "IX_Comments_PostId",
                 table: "Comments",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId1",
+                table: "Comments",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_BlogId",

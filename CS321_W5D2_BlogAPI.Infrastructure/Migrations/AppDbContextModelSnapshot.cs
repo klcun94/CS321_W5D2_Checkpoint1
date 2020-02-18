@@ -47,9 +47,15 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Comments");
                 });
@@ -262,6 +268,10 @@ namespace CS321_W5D2_BlogAPI.Infrastructure.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CS321_W5D2_BlogAPI.Core.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("CS321_W5D2_BlogAPI.Core.Models.Post", b =>
